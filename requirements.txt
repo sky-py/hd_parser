@@ -1,0 +1,11 @@
+beautifulsoup4
+playwright
+loguru
+python-dotenv
+openai
+aiosqlite
+aiogram
+google-api-python-client
+google-auth
+httpx
+
