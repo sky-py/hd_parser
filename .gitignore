@@ -1,12 +1,16 @@
-test*.py
 Backup/
 log/
 Production/
 out/
 other/
+keys/
+.lh/
+
+test*.py
 state.json
-*.db
+*.db*
 credentials.json
+*25519*
 
 
 # Byte-compiled / optimized / DLL files
@@ -169,4 +173,3 @@ $RECYCLE.BIN/
 
 links.txt
 requirements_user.txt
-ui_to_py.bat

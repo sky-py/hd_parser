@@ -106,7 +106,7 @@ async def close_yandex(page: Page) -> None:
 
 
 async def get_bodygraph_image_link(page: Page) -> str:
-    button = page.locator('a.uk-button', has_text='охранить')
+    button = page.locator('a.uk-button', has_text='охранить').filter(has=page.locator(':visible')).first
     href = await button.get_attribute('href')
     return SITE + href  # type: ignore
 
