@@ -5,6 +5,7 @@ from typing import Any, Callable
 import aiosqlite
 import db
 import gdrive
+from bot_init import close_bot_session
 from bot_utils import send_file, send_log_tg_message, send_text
 from constants import BASE_DIR, DATABASE, GOOGLE_API_MAX_CONCURRENT_REQUESTS, GOOGLE_API_MAX_TIMEOUT
 from hd_parse import parse_links_to_files
@@ -36,12 +37,15 @@ async def run_as_async(fn: Callable, args_list: list[tuple]) -> list[Any]:
         return await asyncio.wait_for(asyncio.gather(*tasks), timeout=GOOGLE_API_MAX_TIMEOUT)
 
 
-async def send_files(user_id, files):
-    await send_text(
-        user_id, 'Файли опису готові. Їх можна відкрити у Word або запустити та скопіювати текст через Ctrl+A, Ctrl+C'
-    )
+async def send_files(user_id, files: list[Path]):
+    await send_text(user_id, 'Файли опису готові. Їх можна відкрити у Word або запустити '
+                             'та скопіювати текст через Ctrl+A, Ctrl+C')
     for file in files:
-        await send_file(user_id, file)
+        try:
+            await send_file(user_id, file)
+        except Exception as e:
+            logger.error(f'Ошибка отправки файла {file} пользователю {user_id}\n{str(e)}')
+            await send_text(user_id, f'Ошибка отправки файла {file.name}')
 
 
 async def get_google_documents_links(files):
@@ -110,6 +114,10 @@ async def main() -> None:
     except:
         logger.exception(f'Upper level Exception in {__file__}')
     finally:
+        try:
+            await close_bot_session()
+        except:
+            pass
         await logger.complete()
 
 
