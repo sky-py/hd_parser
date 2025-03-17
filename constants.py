@@ -26,9 +26,9 @@ PASSWORD = get_env('PASSWORD')
 TG_TOKEN = get_env('TG_TOKEN')
 TG_OWNER = int(get_env('TG_OWNER'))
 TG_ADMINS = [int(user) for user in get_env('TG_ADMINS').split(',') if user]
-TG_DELAY = 1  # seconds
-DO_SEND_TO_BOT = True
+TG_MAX_TRIES = 3
 TG_MAX_MESSAGE_LENGTH = 4096
+DO_SEND_TO_BOT = True
 
 OPENAI_API_MAX_CONCURRENT_REQUESTS = 5
 OPENAI_API_MAX_TIMEOUT = 300

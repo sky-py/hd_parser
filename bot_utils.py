@@ -1,22 +1,23 @@
 from pathlib import Path
 from aiogram.types import FSInputFile
 from bot_init import bot
-from constants import DO_SEND_TO_BOT, TG_MAX_MESSAGE_LENGTH, TG_OWNER, TG_TOKEN, TG_DELAY, GLOBAL_MAX_TRIES
+from constants import DO_SEND_TO_BOT, TG_MAX_MESSAGE_LENGTH, TG_OWNER, TG_TOKEN, TG_MAX_TRIES
 from loguru import logger
 from retry import retry
 import asyncio
+import random
 
 
-@retry(max_tries=GLOBAL_MAX_TRIES)
+@retry(max_tries=TG_MAX_TRIES)
 async def send_file(user_id: int, file_path: Path) -> None:
-    await asyncio.sleep(TG_DELAY)
+    await asyncio.sleep(random.random())
     await bot.send_document(chat_id=user_id, document=FSInputFile(file_path))
     logger.info(f'{user_id}: send file {file_path}')
 
 
-@retry(max_tries=GLOBAL_MAX_TRIES)
+@retry(max_tries=TG_MAX_TRIES)
 async def send_text(user_id: int, text: str) -> None:
-    await asyncio.sleep(TG_DELAY)
+    await asyncio.sleep(random.random())
     await bot.send_message(chat_id=user_id, text=text)
     logger.info(f'{user_id}: send message: {text}')
 
