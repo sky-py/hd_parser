@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 def get_env(var: str) -> str:
     v = os.getenv(var)
-    if not v:
+    if v is None:
         raise ValueError(f'Environment variable {var} is not set')
     return v
 

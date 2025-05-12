@@ -56,7 +56,7 @@ async def translate(text: str, additional_instructions: str = '') -> str:
 @retry(max_tries=GLOBAL_MAX_TRIES)
 async def translate_fragment(text: str, additional_instructions: str = '') -> str:
     async with semaphore:
-        return await translate(text, additional_instructions)
+        return await asyncio.wait_for(translate(text, additional_instructions), timeout=OPENAI_API_MAX_TIMEOUT)
 
 
 def get_additional_instructions(text: str) -> str:
